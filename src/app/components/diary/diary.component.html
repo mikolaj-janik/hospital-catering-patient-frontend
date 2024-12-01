@@ -1,0 +1,18 @@
+@if(diet) {
+  <div class="row mt-1">
+    <div class="col-lg-2 col-md-4">
+      <h2 class="ms-1">Jadłospis<h5 class="mt-1">dieta {{ diet.name }}</h5></h2>
+    </div>
+  </div>
+}
+<hr>
+@if(isResponseHere) {
+  <div class="calendar-container p-4">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+} @else {
+  <div class="row d-flex align-items-center justify-content-center v-100" style="height: 400px;">
+    <img src="./assets/images/loader.gif" style="width: 120px; height: auto;">
+  </div>
+}
+

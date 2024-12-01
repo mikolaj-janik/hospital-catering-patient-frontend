@@ -1,0 +1,18 @@
+<h2>Moja dieta</h2>
+<hr>
+@if(diet != null) {
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body pb-2"><h4>Dieta {{ diet.name }}</h4></div>
+            <div class="card-body pt-0" style="font-size: large;">
+                {{ diet.description }}
+            </div>
+        </div>
+    </div>
+} @else if (!isResponseHere){
+    <div class="row d-flex align-items-center justify-content-center v-100" style="height: 400px;">
+      <img src="./assets/images/loader.gif" style="width: 120px; height: auto;">
+    </div>
+  } @else {
+    <h3 style="font-weight: 400;">Nie znaleziono diety</h3>
+  }

@@ -1,0 +1,47 @@
+@if(isResponseHere) {
+    <div class="row mt-1">
+          <h2 class="ms-1" style="margin-bottom: 0px;">{{ patient.ward.name }}<h5 class="mt-1">{{ patient.ward.hospital.name }}</h5></h2>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <div class="row mb-4 flex-column align-items-center justify-content-center">
+            <div class="col-lg-5 col-md-9 col-sm-12"> 
+                <h2>Dietetycy</h2>
+                @for(dietician of dieticians; track dietician.id) {
+                    <div class="card mb-5 mt-4">
+                        <div class="card-body pb-2">
+                            @if(dietician.picture != '') {
+                                <div class="row flex-column align-items-center">
+                                    <div class="col">
+                                        <a role="button" title="Powiększ zdjęcie" (click)="openDialog('data:image/jpeg;base64,' + dietician.picture)">
+                                            <img
+                                                [src]="'data:image/jpeg;base64,' + dietician.picture" 
+                                            /> 
+                                        </a>
+                                    <h4 class="mb-3 col">{{ dietician.name }} {{ dietician.surname }}</h4>
+                                    </div>
+                                    
+                                </div>
+                            } @else {
+                                <div class="row flex-column align-items-center">
+                                    <h4 class="mb-3 col">{{ dietician.name }} {{ dietician.surname }}</h4>
+                                </div>
+                            }
+                            <hr>
+                            <div class="row d-flex flex-column align-items-center">
+                                <h5 class="col">Adres email</h5>
+                                <p class="mb-4 col">{{ dietician.email }}</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+} @else if (!isResponseHere) {
+    <div class="row d-flex align-items-center justify-content-center v-100" style="height: 400px;">
+        <img src="./assets/images/loader.gif" style="width: 120px; height: auto;">
+    </div>
+}
+
