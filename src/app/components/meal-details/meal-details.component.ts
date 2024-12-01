@@ -52,8 +52,8 @@ export class MealDetailsComponent {
     );
   }
 
-  redirectToDiary() {
-    this.router.navigate([`meals/diary/${this.requestFromDiary}`]);
+  redirectToMeals() {
+    this.router.navigate([`meals/premium`]);
   }
 
   openDialog(image: string) {

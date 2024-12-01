@@ -59,6 +59,18 @@ export class CustomSidenavComponent {
           route: 'meals/diary'
         },
         {
+          icon: 'fas fa-utensils',
+          label: 'Premium',
+          route: 'meals/premium',
+          subItems: [
+            {
+              icon: 'fas fa-clipboard-list',
+              label: 'Zamówienia',
+              route: 'orders'
+            }
+          ]
+        },
+        {
           icon: 'fas fa-hospital-alt',
           label: 'Mój oddział',
           route: `wards/${data.ward.id}`

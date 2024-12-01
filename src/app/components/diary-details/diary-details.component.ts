@@ -101,9 +101,6 @@ export class DiaryDetailsComponent {
     const nextDayStr = formatDate(nextDay);
     const prevDayStr = formatDate(previousDay);
 
-    console.log('PREV ' + prevDayStr);
-    console.log('NEXT ' + nextDayStr);
-
     this.diaryService.getDiaryByDateAndDietId(nextDayStr, this.diary.diet.id).pipe(
       catchError((error) => {
         if (error.status === 404) {

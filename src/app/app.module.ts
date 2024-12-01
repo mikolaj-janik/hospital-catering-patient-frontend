@@ -52,12 +52,17 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { DieticianDetailsComponent } from './components/dietician-details/dietician-details.component';
 import { PatientDetailsComponent } from './components/patient-details/patient-details.component';
 import { WardDetailsComponent } from './components/ward-details/ward-details.component';
+import { PremiumMealsComponent } from './components/premium-meals/premium-meals.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
 
 const routes: Routes = [
   {path: 'wards/:id', component: WardDetailsComponent, canActivate: [authGuard]},
   {path: 'patients/:id', component: PatientDetailsComponent, canActivate: [authGuard]},
   {path: 'dieticians/details/:id', component: DieticianDetailsComponent, canActivate: [authGuard]},
+  {path: 'meals/premium', component: PremiumMealsComponent, canActivate: [authGuard]},
+  {path: 'meals/premium/:keyword', component: PremiumMealsComponent, canActivate: [authGuard]},
+  {path: 'meals/premium/orders', component: OrdersComponent, canActivate: [authGuard]},
   {path: 'meals/details/:id', component: MealDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/diets/:id', component: DietDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/diary', component: DiaryComponent, canActivate: [authGuard]},

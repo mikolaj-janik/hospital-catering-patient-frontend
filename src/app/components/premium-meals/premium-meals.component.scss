@@ -1,0 +1,28 @@
+h2, h4, h5 {
+    font-weight: 400;
+}
+mat-paginator{
+    width: 500px;
+    border-radius: 8px;
+}
+
+.card img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+mat-form-field {
+    background-color: white;
+}
+
+@media (min-width: 0px) and (max-width: 767.98px) {
+    .mb-only-sm-2 {
+      margin-bottom: 0.5rem; 
+    }
+}
+
+.meals-divider {
+    margin-top: 0px;
+    color:rgb(129, 129, 129);
+}

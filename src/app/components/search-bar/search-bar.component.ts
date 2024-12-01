@@ -49,7 +49,7 @@ export class SearchBarComponent {
     if (routePath === '' || routePath === '/hospitals' || routePath.startsWith('/hospitals/search')) {
       this.searchBarService.searchHospital(searchTerm);
   
-    } else if (routePath === '/meals' || routePath.startsWith('/meals/search')) {
+    } else if (routePath.startsWith('/meals/premium')) {
       this.searchBarService.searchMeal(searchTerm);
   
     } else if (routePath === '/meals/diets' || routePath.startsWith('/meals/diets/search')) {
@@ -73,7 +73,7 @@ export class SearchBarComponent {
     if (routePath === '' || routePath === '/hospitals' || routePath.startsWith('/hospitals/search')) {
       this.searchBarService.getRecentHospitalSearches();
   
-    } else if (routePath === '/meals' || routePath.startsWith('/meals/search')) {
+    } else if (routePath.startsWith('/meals/premium')) {
       this.searchBarService.getRecentMealsSearches();
   
     } else if (routePath === '/meals/diets' || routePath.startsWith('/meals/diets/search')) {
@@ -88,7 +88,7 @@ export class SearchBarComponent {
   handleSearchContent(routePath: string): string {
     if (routePath === '' || routePath === '/hospitals' || routePath.startsWith('/hospitals/search')) {
       return 'Szukaj szpitali';
-    } else if (routePath === '/meals' || routePath.startsWith('/meals/search')) {
+    } else if (routePath.startsWith('/meals/premium')) {
       return 'Szukaj posiłków';
     } else if (routePath === '/meals/diets' || routePath.startsWith('/meals/diets/search')) {
       return 'Szukaj diet';

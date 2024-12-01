@@ -1,0 +1,159 @@
+<div class="row mt-1">
+    <div class="col-md-3">
+        @if(isResponseHere) {
+            <h2 class="ms-1" style="margin-bottom: 0px;">Posiłki premium<h5 class="mt-1">dieta {{ diet.name }}</h5></h2>
+        }
+    </div>
+    @if (meals.length > 0) {
+      <div class="col-lg-2 me-lg-2 col-md-5 flex-column mb-only-sm-2 d-flex justify-content-center">
+        <mat-form-field>
+          <mat-label>rodzaj</mat-label>
+          <mat-select name="type" (selectionChange)="onTypeSelected($event.value)">
+            @for (type of types; track type) {
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    }
+  </div>
+  
+  <hr>
+  <div class="container-fluid">
+      @if(isResponseHere) {
+          <div class="row">
+            @if(breakfasts.length > 0) {
+                <h4 class="mt-4" style="font-weight: 400;">śniadania</h4>
+                <hr class="meals-divider">
+              @for(meal of breakfasts; track meal.id) {
+                  <div class="col-lg-12 mb-4 p-0">
+                      <div class="card">
+                          <div class="row">
+                            <div class="col-lg-2 rounded-start">
+                              <a role="button" (click)="openDialog('data:image/jpeg;base64,' + meal.image)">
+                              <img
+                                  [src]="'data:image/jpeg;base64,' + meal.image" 
+                                  class="rounded-start"
+                              />
+                              </a>
+                            </div>
+                            <div class="col-lg-9 ps-2">
+                              <div class="card-body mb-1 pe-0 ps-2">
+                                <h5 class="card-title">{{ meal.name }}</h5>
+                                <p class="card-text" style="margin-left: 0; padding-left: 0;">
+                                  {{ meal.description }}
+                                </p>
+                                @if(meal.price > 0) {
+                                  <h6 class="mb-0 mt-3 ">Cena: {{ meal.price }} zł</h6>
+                                }
+                              </div>
+                            </div>
+                            <div class="col-lg-1 py-4 px-0 d-flex flex-column justify-content-center align-items-center" >
+                              <button type="button"
+                                  class="btn btn-link btn-rounded btn-sm fw-bold mb-3"
+                                  (click)="redirectToDetails(meal.id)"
+                              >
+                              Więcej
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                  </div>
+              } 
+            }
+
+            @if(lunches.length > 0) {
+                <h4 class="mt-4" style="font-weight: 400;">obiady</h4>
+                <hr class="meals-divider">
+
+                @for(meal of lunches; track meal.id) {
+                    <div class="col-lg-12 mb-4 p-0">
+                        <div class="card">
+                            <div class="row">
+                              <div class="col-lg-2 rounded-start">
+                                <a role="button" (click)="openDialog('data:image/jpeg;base64,' + meal.image)">
+                                <img
+                                    [src]="'data:image/jpeg;base64,' + meal.image" 
+                                    class="rounded-start"
+                                />
+                                </a>
+                              </div>
+                              <div class="col-lg-9 ps-2">
+                                <div class="card-body mb-1 pe-0 ps-2">
+                                  <h5 class="card-title">{{ meal.name }}</h5>
+                                  <p class="card-text" style="margin-left: 0; padding-left: 0;">
+                                    {{ meal.description }}
+                                  </p>
+                                  @if(meal.price > 0) {
+                                    <h6 class="mb-0 mt-3 ">Cena: {{ meal.price }} zł</h6>
+                                  }
+                                </div>
+                              </div>
+                              <div class="col-lg-1 py-4 px-0 d-flex flex-column justify-content-center align-items-center" >
+                                <button type="button"
+                                    class="btn btn-link btn-rounded btn-sm fw-bold mb-3"
+                                    (click)="redirectToDetails(meal.id)"
+                                >
+                                Więcej
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                }  
+            }
+
+            @if(suppers.length > 0) {
+                <h4 class="mt-4" style="font-weight: 400;">kolacje</h4>
+                <hr class="meals-divider">
+                @for(meal of suppers; track meal.id) {
+                    <div class="col-lg-12 mb-4 p-0">
+                        <div class="card">
+                            <div class="row">
+                              <div class="col-lg-2 rounded-start">
+                                <a role="button" (click)="openDialog('data:image/jpeg;base64,' + meal.image)">
+                                <img
+                                    [src]="'data:image/jpeg;base64,' + meal.image" 
+                                    class="rounded-start"
+                                />
+                                </a>
+                              </div>
+                              <div class="col-lg-9 ps-2">
+                                <div class="card-body mb-1 pe-0 ps-2">
+                                  <h5 class="card-title">{{ meal.name }}</h5>
+                                  <p class="card-text" style="margin-left: 0; padding-left: 0;">
+                                    {{ meal.description }}
+                                  </p>
+                                  @if(meal.price > 0) {
+                                    <h6 class="mb-0 mt-3 ">Cena: {{ meal.price }} zł</h6>
+                                  }
+                                </div>
+                              </div>
+                              <div class="col-lg-1 py-4 px-0 d-flex flex-column justify-content-center align-items-center" >
+                                <button type="button"
+                                    class="btn btn-link btn-rounded btn-sm fw-bold mb-3"
+                                    (click)="redirectToDetails(meal.id)"
+                                >
+                                Więcej
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                }  
+            }
+    
+          </div>
+      }
+      @else if (!isResponseHere){
+        <div class="row d-flex align-items-center justify-content-center v-100" style="height: 400px;">
+          <img src="./assets/images/loader.gif" style="width: 120px; height: auto;">
+        </div>
+      }
+      @if(meals.length === 0) {
+        <h3 style="font-weight: 400;">Nie znaleziono posiłków</h3>
+      }
+  </div>
+  
+  
+    

@@ -3,7 +3,6 @@ import { inject } from '@angular/core';
 import { AuthService } from './service/auth.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +45,7 @@ export class AppComponent {
   activateSearchBar() {
     if (this.routePath === '' || this.routePath === '/wards' || this.routePath.startsWith('/wards/search/')
     || this.routePath === 'dieticians'
-    || this.routePath === '/meals' || this.routePath.startsWith('/meals/search')
+    || this.routePath.startsWith('/meals/premium')
     || this.routePath === '/meals/diets' || this.routePath.startsWith('/meals/diets/search')
     ) {
       return true;

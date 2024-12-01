@@ -61,7 +61,7 @@ export class SearchBarService {
     this.overlayOpen.set(false);
     this.addMealToRecentSearches(searchTerm);
     console.log(searchTerm);
-    this.router.navigate([`meals/search/${searchTerm}`]);
+    this.router.navigate([`meals/premium/${searchTerm}`]);
   }
 
   searchWard(searchTerm: string) {
@@ -106,7 +106,7 @@ export class SearchBarService {
   
   getRecentMealsSearches() {
     const routePath = this.routePathSubject.value;
-    if (routePath === '/meals' || routePath.startsWith('/meals/search')) {
+    if (routePath.startsWith('/meals/premium')) {
       let searches = localStorage.getItem(this.recentMealSearches);
 
       if (searches) {
@@ -125,7 +125,7 @@ export class SearchBarService {
       const updatedSearches = this.handleDeleteSearch(searchTerm);
       localStorage.setItem(this.recentDietSearches, JSON.stringify(updatedSearches));
       
-    } else if (routePath === '/meals' || routePath.startsWith('/meals/search')) {
+    } else if (routePath.startsWith('/meals/premium')) {
       const updatedSearches = this.handleDeleteSearch(searchTerm);
       localStorage.setItem(this.recentMealSearches, JSON.stringify(updatedSearches));
 
