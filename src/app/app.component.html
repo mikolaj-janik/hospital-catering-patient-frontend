@@ -7,7 +7,7 @@
       @if(this.activateSearchBar()) {
         <app-search-bar [style.margin-left]="searchBarWidth()"></app-search-bar>
       }
-      
+      <app-cart-status></app-cart-status>
     </mat-toolbar>
     <mat-sidenav-container>
       <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">

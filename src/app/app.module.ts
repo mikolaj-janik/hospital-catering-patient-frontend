@@ -54,6 +54,7 @@ import { PatientDetailsComponent } from './components/patient-details/patient-de
 import { WardDetailsComponent } from './components/ward-details/ward-details.component';
 import { PremiumMealsComponent } from './components/premium-meals/premium-meals.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
 
 
 const routes: Routes = [
@@ -113,6 +114,7 @@ const routes: Routes = [
     CustomSidenavComponent,
     SearchBarComponent,
     SearchOverlayComponent,
+    CartStatusComponent,
     OverlayModule,
     FullCalendarModule
 ],

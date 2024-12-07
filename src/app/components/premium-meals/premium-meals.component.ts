@@ -11,7 +11,10 @@ import { PopUpComponent } from '../pop-up/pop-up.component';
 import { PatientService } from 'src/app/service/patient.service';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { CartService } from 'src/app/service/cart.service';
+import { CartItem } from 'src/app/common/cart-item';
 
 @Component({
   selector: 'app-premium-meals',
@@ -27,6 +30,7 @@ export class PremiumMealsComponent {
   dietService = inject(DietService);
   patientService = inject(PatientService);
   authService = inject(AuthService);
+  cartService = inject(CartService);
   route = inject(ActivatedRoute);
   router = inject(Router);
   toastr = inject(ToastrService);
@@ -35,23 +39,93 @@ export class PremiumMealsComponent {
   breakfasts: Meal[] = [];
   lunches: Meal[] = [];
   suppers: Meal[] = [];
+  mealsInCart: CartItem[] = [];
   diet: Diet = null;
+
   types = ['wszystkie', 'śniadanie', 'obiad', 'kolacja'];
   selectedType = 'all';
+  selectedBreakfastId = 0;
+  selectedLunchId = 0;
+  selectedSupperId = 0;
+
+  todayDate: Date = null;
+
+  selectedDate: Date = null;
 
   isResponseHere = false;
   searchMode = false;
   mealsEmpty = false;
+  disabledBreakfasts = false;
+  disabledLunches = false;
+  disabledSuppers = false;
 
   ngOnInit() {
     const login = localStorage.getItem('USER_LOGIN');
+    const today = new Date();
+    this.todayDate = today;
 
+    this.selectedDate = today;
+
+    this.mealsInCart = this.cartService.getCartItems();
+    
+    if (this.mealsInCart != null) {
+      this.updateDisabledArray();
+    }
+    
     this.route.paramMap.subscribe(() => {
       this.patientService.getPatientByLogin(login).subscribe(patient => {
         this.diet = patient.diet;
         this.listMeals();
       });
     }); 
+  }
+
+  updateSelectedMeals() {
+    if (this.mealsInCart != null) {
+      this.mealsInCart.forEach((cartItem) => {
+        const date = new Date(cartItem.date).toISOString().split('T')[0];
+        const selectedDate = new Date(this.selectedDate).toISOString().split('T')[0];
+        
+        this.breakfasts.forEach((meal) => {
+          if (meal.id === cartItem.meal.id && date === selectedDate) {
+            console.log('MEAL ID: ' + meal.id);
+            this.selectedBreakfastId = meal.id;
+          }
+        });
+
+        this.lunches.forEach((meal) => {
+          if (meal.id === cartItem.meal.id && date === selectedDate) {
+            this.selectedLunchId = meal.id;
+          }
+        });
+
+        this.suppers.forEach((meal) => {
+          if (meal.id === cartItem.meal.id && date === selectedDate) {
+            this.selectedSupperId = meal.id;
+          }
+        });
+      });
+    }
+  }
+
+  updateDisabledArray() {
+    this.mealsInCart.forEach((cartItem) => {
+      const date = new Date(cartItem.date).toISOString().split('T')[0];
+      const selectedDate = new Date(this.selectedDate).toISOString().split('T')[0];
+
+      if (date === selectedDate) {
+
+        if (cartItem.meal.type === 'śniadanie') {
+          this.disabledBreakfasts = true;
+
+        } else if (cartItem.meal.type === 'obiad') {
+          this.disabledLunches = true;
+
+        } else if (cartItem.meal.type === 'kolacja') {
+          this.disabledSuppers = true;
+        }
+      }
+    });
   }
 
   listMeals() {
@@ -77,6 +151,47 @@ export class PremiumMealsComponent {
     this.mealService.getPremiumMealsByDietIdAndKeyword(this.diet.id, keyword).subscribe(this.processResult());
   }
 
+  addToCart(meal: Meal) {
+    const cartItem: CartItem = new CartItem(new Date(this.selectedDate), meal);
+    this.cartService.addToCart(cartItem);
+    this.mealsInCart = this.cartService.getCartItems();
+    this.updateDisabledArray();
+
+    if (meal.type === 'śniadanie') {
+      this.selectedBreakfastId = meal.id;
+
+    } else if (meal.type === 'obiad') { 
+      this.selectedLunchId = meal.id;
+
+    } else {
+      this.selectedSupperId = meal.id;
+    }
+  }
+
+  deleteFromCart(meal: Meal) {
+    const cartItem: CartItem = new CartItem(this.selectedDate, meal);
+
+    const date = new Date(cartItem.date).toISOString().split('T')[0];
+    const selectedDate = new Date(this.selectedDate).toISOString().split('T')[0];
+
+    if (date === selectedDate) {
+      if (meal.type === 'śniadanie') {
+        this.selectedBreakfastId = 0;
+        this.disabledBreakfasts = false;
+  
+      } else if (meal.type === 'obiad') { 
+        this.selectedLunchId = 0;
+        this.disabledLunches = false;
+  
+      } else {
+        this.selectedSupperId = 0;
+        this.disabledSuppers = false;
+      }
+      this.cartService.removeFromCart(cartItem);
+      this.mealsInCart = this.cartService.getCartItems();
+    }
+  }
+
   processResult() {
     this.mealsEmpty = true;
     return (data) => {
@@ -98,7 +213,7 @@ export class PremiumMealsComponent {
           this.suppers.push(meal);
         }
       });
-      console.log(this.meals.length);
+      this.updateSelectedMeals();
       this.isResponseHere = true;
     }
   }
@@ -123,6 +238,28 @@ export class PremiumMealsComponent {
       }
     }
     this.handleListMeals();
+  }
+
+  onDaySelected(selectedDay: string) {
+    const today = new Date();
+    if (selectedDay === 'today') {
+      this.selectedDate = today;
+
+    } else if (selectedDay === 'tomorrow') {
+      this.selectedDate.setDate(today.getDate() + 1);
+      
+    } else {
+      this.selectedDate.setDate(today.getDate() + 2);
+    }
+    this.disabledBreakfasts = false;
+    this.disabledLunches = false;
+    this.disabledSuppers = false;
+    this.selectedBreakfastId = 0;
+    this.selectedLunchId = 0;
+    this.selectedSupperId = 0;
+    this.updateSelectedMeals();
+    this.updateDisabledArray();
+    console.log(this.mealsInCart);
   }
 
   redirectToDetails(id: number) {

@@ -4,11 +4,23 @@
             <h2 class="ms-1" style="margin-bottom: 0px;">Posiłki premium<h5 class="mt-1">dieta {{ diet.name }}</h5></h2>
         }
     </div>
+
+    <div class="col-lg-2 me-lg-2 col-md-5 flex-column mb-only-sm-2 d-flex justify-content-center">
+      <mat-form-field>
+        <mat-label>dzień zamówienia</mat-label>
+        <mat-select name="day" value="today" (selectionChange)="onDaySelected($event.value)">
+          <mat-option value="today">dzisiaj</mat-option>
+          <mat-option value="tomorrow">jutro</mat-option>
+          <mat-option value="day after tomorrow">pojutrze</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
     @if (meals.length > 0) {
       <div class="col-lg-2 me-lg-2 col-md-5 flex-column mb-only-sm-2 d-flex justify-content-center">
         <mat-form-field>
           <mat-label>rodzaj</mat-label>
-          <mat-select name="type" (selectionChange)="onTypeSelected($event.value)">
+          <mat-select name="type" value="wszystkie" (selectionChange)="onTypeSelected($event.value)">
             @for (type of types; track type) {
               <mat-option [value]="type">{{ type }}</mat-option>
             }
@@ -45,6 +57,13 @@
                                 </p>
                                 @if(meal.price > 0) {
                                   <h6 class="mb-0 mt-3 ">Cena: {{ meal.price }} zł</h6>
+                                }
+                                @if(meal.id === selectedBreakfastId) {
+                                  <button class="btn btn-danger mt-5" (confirm)="deleteFromCart(meal)" [swal]="{ title: 'Usuń posiłek', text: 'Czy na pewno chcesz usunąć posiłek z zamówienia?', icon: 'warning',
+                                  showCancelButton: true, cancelButtonText: 'Anuluj'
+                                 }">Usuń z zamówienia</button>
+                                } @else {
+                                  <button class="btn btn-primary mt-5" (click)="addToCart(meal)" [disabled]="disabledBreakfasts > 0">Dodaj do zamówienia</button>
                                 }
                               </div>
                             </div>
@@ -87,6 +106,13 @@
                                   @if(meal.price > 0) {
                                     <h6 class="mb-0 mt-3 ">Cena: {{ meal.price }} zł</h6>
                                   }
+                                  @if(meal.id === selectedLunchId) {
+                                    <button class="btn btn-danger mt-5" (confirm)="deleteFromCart(meal)" [swal]="{ title: 'Usuń posiłek', text: 'Czy na pewno chcesz usunąć posiłek z zamówienia?', icon: 'warning',
+                                    showCancelButton: true, cancelButtonText: 'Anuluj'
+                                   }">Usuń z zamówienia</button>
+                                  } @else {
+                                    <button class="btn btn-primary mt-5" (click)="addToCart(meal)" [disabled]="disabledLunches">Dodaj do zamówienia</button>
+                                  }
                                 </div>
                               </div>
                               <div class="col-lg-1 py-4 px-0 d-flex flex-column justify-content-center align-items-center" >
@@ -126,6 +152,13 @@
                                   </p>
                                   @if(meal.price > 0) {
                                     <h6 class="mb-0 mt-3 ">Cena: {{ meal.price }} zł</h6>
+                                  }
+                                  @if(meal.id === selectedSupperId) {
+                                    <button class="btn btn-danger mt-5" (confirm)="deleteFromCart(meal)" [swal]="{ title: 'Usuń posiłek', text: 'Czy na pewno chcesz usunąć posiłek z zamówienia?', icon: 'warning',
+                                    showCancelButton: true, cancelButtonText: 'Anuluj'
+                                   }">Usuń z zamówienia</button>
+                                  } @else {
+                                    <button class="btn btn-primary mt-5" (click)="addToCart(meal)" [disabled]="disabledSuppers">Dodaj do zamówienia</button>
                                   }
                                 </div>
                               </div>
