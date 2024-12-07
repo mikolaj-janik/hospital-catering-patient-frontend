@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
 
 @Component({
@@ -12,8 +13,13 @@ export class CartStatusComponent {
   totalQuantity = 0;
 
   cartService = inject(CartService);
+  router = inject(Router);
 
   ngOnInit() {
     this.cartService.totalQuantity.subscribe(data => this.totalQuantity = data);
+  }
+
+  redirectToCheckout() {
+    this.router.navigateByUrl('/meals/premium/checkout');
   }
 }

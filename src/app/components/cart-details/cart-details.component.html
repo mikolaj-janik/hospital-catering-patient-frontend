@@ -1,0 +1,55 @@
+<h2>Podsumowanie</h2>
+<hr>
+<button class="btn" style="color: rgb(255, 255, 255); background-color: rgb(134, 134, 134);" (click)="redirectToPremiumMeals()">Wstecz</button>
+
+@if(cartItems && cartItems.length > 0) {
+    <div class="container-fluid justify-content-center" style="height: 100vh;">
+        <div class="row flex-column align-items-center">
+            <table class="table mx-auto" style="max-width: 1500px;">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center w-20"></th>
+                        <th scope="col" class="text-start w-25" style="padding-left: 100px;">Posiłek</th>
+                        <th scope="col" class="text-center w-15">Rodzaj</th>
+                        <th scope="col" class="text-center w-15">Data zamówienia</th>
+                        <th scope="col" class="text-center w-15">Cena</th>
+                        <th scope="col" class="text-center w-10"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(cartItem of cartItems; track cartItem) {
+                        <tr>
+                            <td class="text-end pe-0"><img [src]="'data:image/jpeg;base64,' + cartItem.meal.image"></td>
+                            <td class="text-start align-middle ps-5"> {{ cartItem.meal.name }}</td>
+                            <td class="align-middle text-center">{{ cartItem.meal.type }}</td>
+                            <td class="align-middle text-center">{{ formatDate(cartItem.date) }}</td>
+                            <td class="align-middle text-center">{{ cartItem.meal.price.toFixed(2) }} zł</td>
+                            <td class="align-middle text-start">
+                                <a role="button" title="Usuń posiłek z koszyka" class="fas fa-trash-alt mt-3" 
+                                style="color: rgb(192, 35, 35);"
+                                [swal]="{ title: 'Usuń posiłek', text: 'Czy na pewno chcesz usunąć posiłek z zamówienia?', 
+                                  showCancelButton: true, cancelButtonText: 'Anuluj'
+                                 }"
+                                (confirm)="handleDeleteMeal(cartItem)" 
+                                ></a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="text-end">
+                            <span style="font-size: medium;">Razem:</span>
+                        </td>
+                        <td class="text-center" 
+                            style="font-weight: 500; font-size: medium;">
+                            {{ totalPrice.toFixed(2) }} zł</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+} @else {
+    <div class="row text-center">
+        <h3>Koszyk jest pusty!</h3>
+    </div>
+}

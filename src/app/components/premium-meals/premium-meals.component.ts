@@ -152,6 +152,22 @@ export class PremiumMealsComponent {
   }
 
   addToCart(meal: Meal) {
+    const now = new Date();
+    const nowDate = now.toISOString().split('T')[0];
+    const selectedDate = this.selectedDate.toISOString().split('T')[0];
+    if (nowDate === selectedDate) {
+      if (meal.type === 'śniadanie' && now.getHours() >= 9) {
+        Swal.fire('Nie można dodać do zamówienia', 'Nie możesz zamówić śniadania na dzisiaj po godzinie 9:00', 'error');
+        return;
+      } else if (meal.type === 'obiad' && now.getHours() >= 13) {
+        Swal.fire('Nie można dodać do zamówienia', 'Nie możesz zamówić obiadu na dzisiaj po godzinie 13:00', 'error');
+        return;
+      } else if (meal.type === 'kolacja' && now.getHours() >= 18) {
+        Swal.fire('Nie można dodać do zamówienia', 'Nie możesz zamówić kolacji na dzisiaj po godzinie 18:00', 'error');
+        return;
+      }
+    }
+    
     const cartItem: CartItem = new CartItem(new Date(this.selectedDate), meal);
     this.cartService.addToCart(cartItem);
     this.mealsInCart = this.cartService.getCartItems();

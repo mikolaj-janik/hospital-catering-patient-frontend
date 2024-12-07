@@ -55,6 +55,7 @@ import { WardDetailsComponent } from './components/ward-details/ward-details.com
 import { PremiumMealsComponent } from './components/premium-meals/premium-meals.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 
 
 const routes: Routes = [
@@ -62,6 +63,7 @@ const routes: Routes = [
   {path: 'patients/:id', component: PatientDetailsComponent, canActivate: [authGuard]},
   {path: 'dieticians/details/:id', component: DieticianDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/premium', component: PremiumMealsComponent, canActivate: [authGuard]},
+  {path: 'meals/premium/checkout', component: CartDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/premium/:keyword', component: PremiumMealsComponent, canActivate: [authGuard]},
   {path: 'meals/premium/orders', component: OrdersComponent, canActivate: [authGuard]},
   {path: 'meals/details/:id', component: MealDetailsComponent, canActivate: [authGuard]},
