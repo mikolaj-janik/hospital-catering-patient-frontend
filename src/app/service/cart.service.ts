@@ -35,6 +35,11 @@ export class CartService {
     }
   }
 
+  clearCart() {
+    this.cartItems = [];
+    this.computeCartTotals();
+  }
+
   getCartItems() {
     return JSON.parse(this.storage.getItem('cartItems')!);
   }

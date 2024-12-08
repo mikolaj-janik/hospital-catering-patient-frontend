@@ -3,7 +3,7 @@
 <button class="btn" style="color: rgb(255, 255, 255); background-color: rgb(134, 134, 134);" (click)="redirectToPremiumMeals()">Wstecz</button>
 
 @if(cartItems && cartItems.length > 0) {
-    <div class="container-fluid justify-content-center" style="height: 100vh;">
+    <div class="container-fluid justify-content-center">
         <div class="row flex-column align-items-center">
             <table class="table mx-auto" style="max-width: 1500px;">
                 <thead>
@@ -48,6 +48,30 @@
             </table>
         </div>
     </div>
+    @if(isLoading) {
+        <div class="overlay">
+            <img src="./assets/images/loader.gif" alt="Loading..." class="loading-icon">
+        </div>
+    }
+    <div class="container-fluid justify-content-center">
+        <div class="row flex-column align-items-center">
+            <div class="card col-lg-6 col-md-9 col-sm-12 px-4" style="padding-top: 25px; padding-bottom: 20px;">
+                <h5 class="mb-4">Dane karty kredytowej/debetowej</h5>
+                <div id="card-element">
+
+                </div>
+
+                <div id="card-errors" class="displayError.textContent!=='': 'alert alert-danger mt-1'">
+
+                </div>
+               
+                <p class="d-flex justify-content-center">
+                    <button mat-flat-button class="btn btn-primary mt-4" (click)="submitCheckout()">Złóż zamówienie</button>
+                </p>    
+            </div>
+        </div>
+    </div>
+
 } @else {
     <div class="row text-center">
         <h3>Koszyk jest pusty!</h3>

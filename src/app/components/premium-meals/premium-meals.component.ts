@@ -88,7 +88,6 @@ export class PremiumMealsComponent {
         
         this.breakfasts.forEach((meal) => {
           if (meal.id === cartItem.meal.id && date === selectedDate) {
-            console.log('MEAL ID: ' + meal.id);
             this.selectedBreakfastId = meal.id;
           }
         });
@@ -275,7 +274,6 @@ export class PremiumMealsComponent {
     this.selectedSupperId = 0;
     this.updateSelectedMeals();
     this.updateDisabledArray();
-    console.log(this.mealsInCart);
   }
 
   redirectToDetails(id: number) {

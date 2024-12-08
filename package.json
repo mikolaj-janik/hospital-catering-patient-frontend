@@ -33,6 +33,7 @@
     "ngx-toastr": "^19.0.0",
     "open-iconic": "^1.1.1",
     "rxjs": "~7.5.0",
+    "stripe": "^8.179.0",
     "sweetalert2": "^11.14.5",
     "tslib": "^2.1.0",
     "zone.js": "~0.14.2"
