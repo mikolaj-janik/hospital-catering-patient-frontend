@@ -13,6 +13,8 @@ import { environment } from 'src/environments/environment';
 import { PaymentInfo } from 'src/app/common/payment-info';
 import { CheckoutService } from 'src/app/service/checkout.service';
 import { CommonModule } from '@angular/common';
+import { PatientService } from 'src/app/service/patient.service';
+import { Patient } from 'src/app/common/patient';
 
 @Component({
   selector: 'app-cart-details',
@@ -28,9 +30,11 @@ export class CartDetailsComponent {
   toast = inject(ToastrService);
   cartService = inject(CartService);
   checkoutService = inject(CheckoutService);
+  patientService = inject(PatientService);
 
   cartItems: CartItem[] = [];
   totalPrice = 0;
+  patient: Patient = null;
 
   stripe = Stripe(environment.stripePublishableKey);
 
@@ -41,6 +45,10 @@ export class CartDetailsComponent {
   isLoading = false;
 
   ngOnInit() {
+    const login = localStorage.getItem('USER_LOGIN');
+    this.patientService.getPatientByLogin(login).subscribe(patient => {
+      this.patient = patient;
+    });
     this.cartItems = this.cartService.getCartItems();
     if (this.cartItems.length === 0) {
       this.emptyCartMessage();
@@ -100,11 +108,14 @@ export class CartDetailsComponent {
             this.isLoading = false;
             this.toast.error('Wystąpił problem podczas przetwarzania płatności');
           } else {
-            // TODO
-            this.isLoading = false;
-            this.cartService.clearCart();
-            this.router.navigateByUrl('/meals/premium');
-            this.toast.success('Zamówienie zostało złożone');
+            this.checkoutService.placeOrder({ patient: this.patient, 
+                                              totalPrice: this.totalPrice, 
+                                              cartItems: this.cartItems }).subscribe(() => {
+              this.isLoading = false;
+              this.cartService.clearCart();
+              this.router.navigateByUrl('/meals/premium');
+              this.toast.success('Zamówienie zostało złożone');
+            });
           }
         });
       });

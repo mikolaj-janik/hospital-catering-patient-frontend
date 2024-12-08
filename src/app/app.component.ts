@@ -45,7 +45,7 @@ export class AppComponent {
   activateSearchBar() {
     if (this.routePath === '' || this.routePath === '/wards' || this.routePath.startsWith('/wards/search/')
     || this.routePath === 'dieticians'
-    || this.routePath.startsWith('/meals/premium')
+    || (this.routePath.startsWith('/meals/premium') && !this.routePath.startsWith('/meals/premium/checkout'))
     || this.routePath === '/meals/diets' || this.routePath.startsWith('/meals/diets/search')
     ) {
       return true;
