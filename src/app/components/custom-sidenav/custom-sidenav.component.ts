@@ -66,7 +66,7 @@ export class CustomSidenavComponent {
             {
               icon: 'fas fa-clipboard-list',
               label: 'Zamówienia',
-              route: 'orders'
+              route: 'orders/all'
             }
           ]
         },

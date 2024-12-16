@@ -65,7 +65,7 @@ const routes: Routes = [
   {path: 'meals/premium', component: PremiumMealsComponent, canActivate: [authGuard]},
   {path: 'meals/premium/checkout', component: CartDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/premium/:keyword', component: PremiumMealsComponent, canActivate: [authGuard]},
-  {path: 'meals/premium/orders', component: OrdersComponent, canActivate: [authGuard]},
+  {path: 'meals/premium/orders/all', component: OrdersComponent, canActivate: [authGuard]},
   {path: 'meals/details/:id', component: MealDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/diets/:id', component: DietDetailsComponent, canActivate: [authGuard]},
   {path: 'meals/diary', component: DiaryComponent, canActivate: [authGuard]},

@@ -1,1 +1,26 @@
-<p>orders works!</p>
+<h2 class="ms-1" style="margin-bottom: 0px;">Moje zamówienia</h2>
+<hr>
+@if(orders.length > 0) {
+    @for(order of orders; track order.id) {
+        <div class="row flex-column align-items-center mb-5">
+            <div class="card text-center col-lg-6 col-md-10">
+                <div class="card-header">Nr zamówienia: {{ order.id }}</div>
+                <div class="card-body">
+                  <h5 class="card-title">Special title treatment</h5>
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <a href="#" class="btn btn-primary">Button</a>
+                </div>
+                <div class="card-footer text-muted">{{ formatDate(order.orderDate) }}</div>
+            </div>
+        </div>
+    }
+} @else if (!isResponseHere) {
+    <div class="row d-flex align-items-center justify-content-center v-100" style="height: 400px;">
+        <img src="./assets/images/loader.gif" style="width: 120px; height: auto;">
+      </div>
+} @else {
+    <div class="row text-center">
+        <h3>Brak zamówień</h3>
+    </div>
+}
+

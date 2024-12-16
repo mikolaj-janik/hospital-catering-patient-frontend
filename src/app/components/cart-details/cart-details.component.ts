@@ -112,9 +112,9 @@ export class CartDetailsComponent {
                                               totalPrice: this.totalPrice, 
                                               cartItems: this.cartItems }).subscribe(() => {
               this.isLoading = false;
-              this.cartService.clearCart();
-              this.router.navigateByUrl('/meals/premium');
+              this.cartService.clearCart();    
               this.toast.success('Zamówienie zostało złożone');
+              this.router.navigateByUrl('/meals/premium/orders/all');
             });
           }
         });
