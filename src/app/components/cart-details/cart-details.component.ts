@@ -110,10 +110,10 @@ export class CartDetailsComponent {
           } else {
             this.checkoutService.placeOrder({ patient: this.patient, 
                                               totalPrice: this.totalPrice, 
-                                              cartItems: this.cartItems }).subscribe(() => {
+                                              cartItems: this.cartItems }).subscribe((order) => {
               this.isLoading = false;
               this.cartService.clearCart();    
-              this.toast.success('Zamówienie zostało złożone');
+              this.toast.success(`Zamówienie zostało złożone.\n Nr zamówienia: ${order.id}`);
               this.router.navigateByUrl('/meals/premium/orders/all');
             });
           }

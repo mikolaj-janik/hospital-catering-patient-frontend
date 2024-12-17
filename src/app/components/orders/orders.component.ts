@@ -34,7 +34,7 @@ export class OrdersComponent {
     });
   }
 
-  formatDate(dateString: string): string {
+  formatOrderDate(dateString: string): string {
     const date = new Date(dateString);
     const now = new Date();
     const diffInMs = now.getTime() - date.getTime();
@@ -61,6 +61,14 @@ export class OrdersComponent {
         return `${day} ${this.getMonthName(date.getMonth())} ${year} godz. ${hours}:${minutes}`;
       }
     }
+  }
+
+  formatOrderItemDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = ('0' + date.getDate()).slice(-2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
   }
   
   getMonthName(monthIndex: number): string {

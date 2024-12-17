@@ -17,6 +17,11 @@ export class CheckoutService {
     private http: HttpClient,
   ) { }
 
+  verifyCartItem(mealId: number, date: string): Observable<any> {
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get(`${environment.apiUrl}/checkout/check?mealId=${mealId}&date=${date}`, { headers });
+  }
+
   createPaymentIntent(paymentInfo: PaymentInfo): Observable<any> {
     const headers = this.authService.getAuthHeaders();
     return this.http.post(`${environment.apiUrl}/checkout/payment-intent`, paymentInfo, { headers });

@@ -1,3 +1,4 @@
+import { OrderItem } from "./order-item";
 import { Patient } from "./patient";
 
 export class Order {
@@ -5,6 +6,7 @@ export class Order {
             public id: number,
             public patient: Patient,
             public totalPrice: number,
-            public orderDate: Date
+            public orderDate: Date,
+            public orderItems: OrderItem[]
         ){}
 }

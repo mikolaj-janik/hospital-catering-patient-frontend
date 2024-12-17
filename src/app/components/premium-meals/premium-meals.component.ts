@@ -15,6 +15,8 @@ import Swal from 'sweetalert2';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CartService } from 'src/app/service/cart.service';
 import { CartItem } from 'src/app/common/cart-item';
+import { CheckoutService } from 'src/app/service/checkout.service';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-premium-meals',
@@ -27,6 +29,7 @@ export class PremiumMealsComponent {
 
   dialogRef = inject(MatDialog);
   mealService = inject(MealService);
+  checkoutService = inject(CheckoutService);
   dietService = inject(DietService);
   patientService = inject(PatientService);
   authService = inject(AuthService);
@@ -166,21 +169,51 @@ export class PremiumMealsComponent {
         return;
       }
     }
-    
-    const cartItem: CartItem = new CartItem(new Date(this.selectedDate), meal);
-    this.cartService.addToCart(cartItem);
-    this.mealsInCart = this.cartService.getCartItems();
-    this.updateDisabledArray();
 
-    if (meal.type === 'śniadanie') {
-      this.selectedBreakfastId = meal.id;
+    let hasErrors = false;
 
-    } else if (meal.type === 'obiad') { 
-      this.selectedLunchId = meal.id;
+    this.checkoutService.verifyCartItem(meal.id, selectedDate).pipe(
+      catchError((error) => {
+        hasErrors = true;
 
-    } else {
-      this.selectedSupperId = meal.id;
-    }
+        if (error.status === 400) {
+          let message;
+
+          if (meal.type === 'śniadanie') {
+            message = 'W tym dniu śniadanie widnieje już na liście twoich zamówień';
+
+          } else if (meal.type === 'obiad') {
+            message = 'W tym dniu obiad widnieje już na liście twoich zamówień';
+
+          } else {
+            message = 'W tym dniu kolacja widnieje już na liście twoich zamówień';
+
+          }
+          Swal.fire('Nie można dodać do zamówienia', message, 'error');
+          
+        } else if (error.status === 404) {
+          this.toastr.error('Nie znaleziono posiłku');
+        }
+        return of(null);
+      })
+    ).subscribe(() => {
+      if (!hasErrors) {
+        const cartItem: CartItem = new CartItem(new Date(this.selectedDate), meal);
+        this.cartService.addToCart(cartItem);
+        this.mealsInCart = this.cartService.getCartItems();
+        this.updateDisabledArray();
+
+        if (meal.type === 'śniadanie') {
+          this.selectedBreakfastId = meal.id;
+
+        } else if (meal.type === 'obiad') { 
+          this.selectedLunchId = meal.id;
+
+        } else {
+          this.selectedSupperId = meal.id;
+        }
+      }
+    });
   }
 
   deleteFromCart(meal: Meal) {

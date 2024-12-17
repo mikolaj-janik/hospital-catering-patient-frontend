@@ -12,6 +12,7 @@ export class Meal {
         public protein: number,
         public carbohydrates: number,
         public fats: number,
-        public image: string
+        public image: string,
+        public date: string
     ){}
 }
